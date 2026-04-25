@@ -1,21 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/components/Login.vue' // 使用 @ 别名指向 src
-
+import Login from '../components/Login.vue'
+import usHome from '../components/usHome.vue'
+// import { from } from 'core-js/core/array'
 Vue.use(VueRouter)
 
-// 定义路由表
-const routes = [
-  { path: '/', redirect: '/login' },
-  { path: '/login', component: Login }
-]
-
-// 创建路由实例
 const router = new VueRouter({
-  mode: 'history', // 可选，去掉 hash 的 # 号
-  base: process.env.BASE_URL,
-  routes
+  routes: [
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: Login },
+    { path: '/usHome', component: usHome }
+  ]
 })
-
-// 导出路由实例（重要！）
+// 挂载路由守卫
+router.beforeEach((to, from, next) => {
+  // to代表将要访问的路径
+  // from 代表从那个路径跳转而来
+  // next 是一个函数，表示放行
+  // next()放行  next（‘/login’）强制跳转
+  if (to.path === '/login') return next()
+  // 获取token
+  const tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/login')
+  next()
+})
 export default router
