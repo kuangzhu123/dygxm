@@ -189,7 +189,11 @@ export default {
                 children:'children'
             },
             // 选中是父级类的Id数组
-            selectedKeys: []
+            selectedKeys: [],
+            // 控制修改对话框的显示与隐藏
+            editDialogVisible:false,
+            // 修改的表单数据对象
+            editForm: {}
 
         }
     },
@@ -275,6 +279,14 @@ export default {
             this.selectedKeys = []
             this.addCateForm.cat_level = 0
             this.addCateForm.cat_pid = 0
+        },
+        // 点击按钮修改的对话框
+        showEditDialog () {
+
+        },
+        // 重置修改的表单
+        editDialogClose () {
+            this.$refs.editFormRef.resetFields()
         }
 
 
